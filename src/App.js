@@ -30,8 +30,8 @@ function App() {
       </ion-header>
 
       <ion-content class="ion-padding">
-        <h2>Body Mass Index</h2>
-        <p>Body mass index (BMI) is a value derived from the mass (weight) and height of a person. The BMI is defined as the body mass divided by the square of the body height, and is universally expressed in units of kg/m2, resulting from mass in kilograms and height in metres.</p>
+        <h3>Body Mass Index</h3>
+        <p>BMI is a screening tool that can indicate whether a person is underweight or if they have a healthy weight, excess weight, or obesity. If a person's BMI is outside of the healthy range, their health risks may increase significantly</p>
 
         <IonItem>
           <IonLabel position="fixed">Height (ft) :</IonLabel>
@@ -97,7 +97,7 @@ function App() {
         </table>
         <br />
 
-        <div style={{ border: 'solid #3880ff 3px', padding: '3px', marginBottom: '10px' }}>
+        <div style={{ border: 'solid #3880ff 3px', padding: '3px', marginBottom: '5px', backgroundColor: '#3880ff', color: "white", borderRadius: '3px' }}>
           <b>Design & Developed</b><br />
           Amarjit Pheiroijam
         </div>
