@@ -1,10 +1,28 @@
 import React, { useState, useRef } from 'react';
 import { IonItem, IonInput, IonLabel, IonButton } from '@ionic/react';
+
+import { Plugins } from '@capacitor/core';
+
+
 function App() {
+
+  const { Device, Geolocation } = Plugins;
+
   const WeightIRef = useRef();
   const HeightIRef = useRef();
   const [bmi, setBmi] = useState();
   const [vis, setvis] = useState(false);
+
+  const [la, setla] = useState();
+  const [lo, setlo] = useState();
+  const [g, setg] = useState(false);
+
+
+  const info = Device.getInfo();
+  info.then((res) => {
+    console.log(res);
+  })
+
 
   const Cal = () => {
     const W = WeightIRef.current.value;
@@ -12,12 +30,27 @@ function App() {
     const BMI = W / (H * H);
     setBmi(BMI.toFixed(2));
     setvis(true);
+    console.log(info);
 
   }
   const Clear = () => {
     WeightIRef.current.value = ''
     HeightIRef.current.value = ''
     setvis(false);
+    setg(false);
+
+  }
+  const getloc = () => {
+    const coordinates = Geolocation.getCurrentPosition();
+    coordinates.then((res) => {
+      //console.log(res);
+      const La = res.coords.latitude;
+      const Lo = res.coords.longitude;
+
+      setla(La);
+      setlo(Lo);
+      setg(true);
+    })
 
   }
 
@@ -48,12 +81,17 @@ function App() {
             <ion-column>
               <IonButton class='ion-margin-top' color="primary" size='1' onClick={() => Cal()}>CALCULATE</IonButton>
               <IonButton class='ion-margin-top' color="primary" size='5' onClick={() => Clear()}>CLEAR</IonButton>
+              <IonButton class='ion-margin-top' color="primary" size='5' onClick={() => getloc()}>GET LOCATION</IonButton>
             </ion-column>
           </ion-row>
         </ion-grid>
         {
           vis ? <ion-text className='ion-padding' color='primary'><h2 style={{ border: 'solid #3880ff 2px', textAlign: 'center', padding: '3px' }}> BMI : {bmi}</h2> </ion-text> : <div></div>
         }
+        {
+          g ? <ion-text className='ion-padding'><h4 style={{ border: 'solid #3880ff 2px', textAlign: 'center', padding: '3px' }}> Latitiude : {la} <br /> Longitude : {lo}</h4> </ion-text> : <div></div>
+        }
+
 
         <table style={{
           width: '100%',
