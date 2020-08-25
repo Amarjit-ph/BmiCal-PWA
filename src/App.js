@@ -15,12 +15,13 @@ function App() {
 
   const [la, setla] = useState();
   const [lo, setlo] = useState();
+  const [loc, setloc] = useState();
   const [g, setg] = useState(false);
 
 
   const info = Device.getInfo();
   info.then((res) => {
-    console.log(res);
+    //console.log(res);
   })
 
 
@@ -30,7 +31,6 @@ function App() {
     const BMI = W / (H * H);
     setBmi(BMI.toFixed(2));
     setvis(true);
-    console.log(info);
 
   }
   const Clear = () => {
@@ -46,10 +46,15 @@ function App() {
       //console.log(res);
       const La = res.coords.latitude;
       const Lo = res.coords.longitude;
+      fetch(`https://us1.locationiq.com/v1/reverse.php?key=fbf5060ee4ec33&lat=${La}&lon=${Lo}&format=json`)
+        .then(res => res.json())
+        .then(data => { setloc(data.display_name) })
+        .then(() => setg(true))
+        .catch((err) => { console.log(err) })
 
       setla(La);
       setlo(Lo);
-      setg(true);
+
     })
 
   }
@@ -89,7 +94,9 @@ function App() {
           vis ? <ion-text className='ion-padding' color='primary'><h2 style={{ border: 'solid #3880ff 2px', textAlign: 'center', padding: '3px' }}> BMI : {bmi}</h2> </ion-text> : <div></div>
         }
         {
-          g ? <ion-text className='ion-padding'><h4 style={{ border: 'solid #3880ff 2px', textAlign: 'center', padding: '3px' }}> Latitiude : {la} <br /> Longitude : {lo}</h4> </ion-text> : <div></div>
+          g ? <ion-text className='ion-padding'><h4 style={{ border: 'solid #3880ff 2px', textAlign: 'center', padding: '3px' }}>
+            Location : {loc} <br /></h4>
+            <h5 style={{ border: 'solid #3880ff 2px', textAlign: 'center', padding: '3px' }}>Latitiude : {la} <br /> Longitude : {lo}</h5></ion-text> : <div></div>
         }
 
 
